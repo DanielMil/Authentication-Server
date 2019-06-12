@@ -9,7 +9,6 @@ import session from 'express-session';
 import cookieParser from 'cookie-parser';
 import mongoStore from 'connect-mongo';
 
-const MongoStore = mongoStore(session); 
 const app = express();
 dotenv.config();
 
@@ -18,7 +17,7 @@ const DB_CONNECTION: any = process.env.MONGO_URI;
 mongoose.connect(DB_CONNECTION, { useNewUrlParser: true })
  .then(() => console.log("Succesfully connected to MongoDB."))
  .catch((err: mongoose.Error) => console.error(err));
-
+const MongoStore = mongoStore(session); 
 const db: any  = mongoose.connection;
  
 // Fix mongo deprecation warnings

@@ -45,8 +45,10 @@ router.post('/register', async (req: Request, res: Response) => {
 });
 
 router.get('/user', ensureAuthenticated, (req: Request, res: Response) => {
+  let user: any =  new Object(JSON.parse(JSON.stringify(req.user)));
+  delete user.password;
   res.json({
-    User: req.user,
+    User: user,
     status: "SUCCESS"
   });
 });
