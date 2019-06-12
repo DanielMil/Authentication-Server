@@ -1,0 +1,47 @@
+{
+  "name": "authentication-server",
+  "version": "1.0.0",
+  "description": "Containerized Authentication Service",
+  "main": "./build/index.js",
+  "scripts": {
+    "compile": "tsc -w",
+    "dev": "nodemon build/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DanielMilGuelph/Authentication-Server.git"
+  },
+  "author": "Daniel Mil",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/DanielMilGuelph/Authentication-Server/issues"
+  },
+  "homepage": "https://github.com/DanielMilGuelph/Authentication-Server#readme",
+  "dependencies": {
+    "@types/bcrypt": "^3.0.0",
+    "@types/body-parser": "^1.17.0",
+    "@types/connect-mongo": "0.0.42",
+    "@types/cookie-parser": "^1.4.1",
+    "@types/dotenv": "^6.1.1",
+    "@types/express": "^4.17.0",
+    "@types/express-session": "^1.15.12",
+    "@types/mongoose": "^5.5.5",
+    "@types/mongoose-unique-validator": "^1.0.1",
+    "@types/node": "^12.0.5",
+    "@types/passport": "^1.0.0",
+    "@types/passport-local": "^1.0.33",
+    "bcrypt": "^3.0.6",
+    "body-parser": "^1.19.0",
+    "connect-mongo": "^2.0.3",
+    "cookie-parser": "^1.4.4",
+    "dotenv": "^8.0.0",
+    "eslint": "^5.16.0",
+    "express": "^4.17.1",
+    "express-session": "^1.16.1",
+    "mongoose": "^5.5.14",
+    "mongoose-unique-validator": "^2.0.3",
+    "nodemon": "^1.19.1",
+    "passport": "^0.4.0",
+    "passport-local": "^1.0.0"
+  }
+}
