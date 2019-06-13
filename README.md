@@ -14,7 +14,7 @@
 
 ### Configure
 
-> Create a .env file for your configurations in the root directory.
+> Create a .env file for your configurations in the root directory and copy the following with your appropriate configurations:
 
 ```INI
 MONGO_URI = mongodb://mongo:27017:27017/<database name>
