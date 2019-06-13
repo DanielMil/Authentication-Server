@@ -15,7 +15,7 @@ dotenv.config();
 // Mongo config
 const DB_CONNECTION: any = process.env.MONGO_URI; 
 mongoose.connect(DB_CONNECTION, { useNewUrlParser: true })
- .then(() => console.log('Succesfully connected to MongoDB.'))
+ .then(() => console.log("Succesfully connected to MongoDB."))
  .catch((err: mongoose.Error) => console.error(err));
 const MongoStore = mongoStore(session); 
 const db: any  = mongoose.connection;
