@@ -4,7 +4,7 @@
   "description": "Containerized Authentication Service",
   "main": "./build/index.js",
   "scripts": {
-    "start": "nodemon build/index.js",
+    "start": "node build/index.js",
     "compile": "tsc -w",
     "dev": "nodemon build/index.js"
   },

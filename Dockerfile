@@ -9,9 +9,11 @@ WORKDIR /usr/src/app
 
 COPY package.json /usr/src/app/
 
-RUN npm install -g typescript && npm install && tsc
+RUN npm install -g typescript && npm install
 
 COPY . /usr/src/app
+
+RUN tsc
 
 EXPOSE 5000
 
