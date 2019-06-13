@@ -17,7 +17,7 @@
 > Create a .env file for your configurations in the root directory.
 
 ```INI
-MONGO_URI = mongodb://mongo:27017:27017/autocommitter
+MONGO_URI = mongodb://mongo:27017:27017/<database name>
 ```
 ### Build and Run
 ```shell
