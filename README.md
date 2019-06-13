@@ -21,7 +21,7 @@ MONGO_URI = mongodb://mongo:27017:27017/<database name>
 ```
 ### Build and Run
 ```shell
-docker-compose up build
+docker-compose up --build
 ```
 ---
 
