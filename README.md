@@ -33,4 +33,4 @@ docker-compose up build
 - [ ] Database configuration between MongoDB and SQL using Sequelize.
 - [ ] Option for TLS/SSL encryped https routes through config.
 - [ ] Swagger?
-- [ ] Endpoint for updating user, deleting user and forgotten passwords.
+- [ ] Endpoints for updating user, deleting user and forgotten passwords.
