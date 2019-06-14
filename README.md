@@ -8,7 +8,7 @@
 
 #### Clone
 
-- Clone this repo to your local machine using `https://github.com/DanielMilGuelph/Authentication-Server`
+- Clone this repo to your local machine using `https://github.com/DanielMil/Authentication-Server`
 
 #### Configure
 
