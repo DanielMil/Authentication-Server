@@ -5,7 +5,10 @@ import bcrypt from 'bcrypt';
 // User model config
 const UserSchema: mongoose.Schema<any>  = new Schema({ 
     username: {type: String, required: true, unique: true },
-    password: {type: String, required: true }
+    password: {type: String, required: true },
+    email: {type: String, required: true },
+    resetPasswordToken: {type: String},
+    resetPasswordExpiration: {type: String}
  });
 
 UserSchema.plugin(uniqueValidator);
@@ -13,8 +16,11 @@ UserSchema.plugin(uniqueValidator);
 export interface userModel {
     username: string,
     password: string,
-    id: string
-    save: (err: Error) => void
+    id: string,
+    email: string, 
+    resetPasswordToken: string,
+    resetPasswordExpiration: number,
+    save: (err?: Error) => void
 };
 
 export const User: mongoose.Model<any> = mongoose.model("User", UserSchema);

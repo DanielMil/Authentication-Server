@@ -22,7 +22,7 @@ router.post('/logout', ensureAuthenticated, (req: Request, res: Response) => {
 });
 
 router.post('/register', async (req: Request, res: Response) => {
-  let { username, password } = req.body;
+  let { username, password, email } = req.body;
   if (!username || !password) {
     res.status(200).json({
       description: "Missing required field.",
@@ -30,7 +30,7 @@ router.post('/register', async (req: Request, res: Response) => {
     });
     return;
   }
-  let newUser = new User({ username, password });
+  let newUser = new User({ username, password, email });
   saveUser(newUser, (err: Error) => {
     if (err) res.status(500).json({
       error: err
@@ -54,8 +54,8 @@ router.get('/user', ensureAuthenticated, (req: Request, res: Response) => {
 });
 
 router.get('/invalidSession', (req: Request, res: Response) => {
-  res.status(400).json({
-    description: "There is no user in session.",
+  res.status(401).json({
+    description: "Unauthorized",
     status: "FAILURE"
   });
 });
