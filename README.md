@@ -29,19 +29,19 @@ docker-compose up --build
 
 > Ensure that TypeScript, Node.js, tsc and MongoDB are installed on your machine.
 
-> Install dependencies.
+#### Install dependencies.
 ```shell
 npm install
 ```
 
-> Compile the TypeScript into JavaScript.
+#### Compile the TypeScript into JavaScript.
 ```shell
 tsc
 ```
 
-> Start your Mongo database with any method you wish.
+#### Start your Mongo database with any method you wish.
 
-> Run the server.
+#### Run the server.
 ```shell
 npm start
 ```
