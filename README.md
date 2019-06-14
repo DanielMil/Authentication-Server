@@ -4,24 +4,50 @@
 
 > The service currently uses Passport.js with MongoDB, but there are plans to implement a SQL configuration in the near future.
 
-## Installation
+## Installation 
 
-####  You must have Docker installed on your machine. 
-
-### Clone
+#### Clone
 
 - Clone this repo to your local machine using `https://github.com/DanielMilGuelph/Authentication-Server`
 
-### Configure
+#### Configure
 
-> Create a .env file for your configurations in the root directory and copy the following with your appropriate configurations:
+> Create a .env file for your configurations in the root directory. Copy the following configuration and edit appropriately.
 
 ```INI
-MONGO_URI = mongodb://mongo:27017:27017/<database name>
+MONGO_URI = mongodb://mongo:27017/<database name>
 ```
-### Build and Run
+
+### With Docker (Recommended)
+
+#### Build and Run
 ```shell
 docker-compose up --build
+```
+
+### Manually
+
+> Ensure that TypeScript, Node.js, tsc and MongoDB are installed on your machine.
+
+> Install dependencies.
+```shell
+npm install
+```
+
+> Compile the TypeScript into JavaScript.
+```shell
+tsc
+```
+
+> Start your Mongo database with any method you wish.
+
+> Run the server.
+```shell
+npm start
+```
+
+```shell
+npm run dev # Runs server with nodemon
 ```
 ---
 
