@@ -1,6 +1,7 @@
 import mongoose, { Schema } from 'mongoose';
 import uniqueValidator  from 'mongoose-unique-validator';
 import bcrypt from 'bcrypt';
+import { userModel } from './Interfaces'
 
 // User model config
 const UserSchema: mongoose.Schema<any>  = new Schema({ 
@@ -12,16 +13,6 @@ const UserSchema: mongoose.Schema<any>  = new Schema({
  });
 
 UserSchema.plugin(uniqueValidator);
-
-export interface userModel {
-    username: string,
-    password: string,
-    email: string, 
-    id: any,
-    resetPasswordToken: string,
-    resetPasswordExpiration: number,
-    save: (err?: Error) => void
-};
 
 export const User: mongoose.Model<any> = mongoose.model("User", UserSchema);
 
