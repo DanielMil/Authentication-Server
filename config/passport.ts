@@ -3,6 +3,8 @@ import { User, userModel } from '../models/User';
 import bcrypt from 'bcrypt';
 import { Request, Response } from 'express'; 
 import { NextFunction } from 'connect';
+import { Strategy as jwtStrategy, ExtractJwt } from 'passport-jwt';
+import passport from 'passport';
 
 export function configurePassport(passport: any) {
     passport.use(
@@ -20,6 +22,22 @@ export function configurePassport(passport: any) {
         })
     );
 
+    passport.use(
+        new jwtStrategy({
+            jwtFromRequest: ExtractJwt.fromHeader('authorization'),
+            secretOrKey: process.env.JWT_SECRET
+        }, (payload, done) => {
+            User.findById(payload.sub)
+            .then((user) => {
+                done(null, user); 
+            })  
+            .catch((err) => {
+                console.error(err);
+                done(err, false);
+            });
+        })
+    );
+
     passport.serializeUser((user: userModel, done: any) => {
         done(null, user.id);
     });
@@ -33,9 +51,20 @@ export function configurePassport(passport: any) {
 }
 
 export function ensureAuthenticated(req: Request, res: Response, next: NextFunction) {
-    if (req.isAuthenticated()) {
-        return next();
-    } else {
+    if (!req.isAuthenticated()) {
         res.redirect('/auth/invalidSession');
+    } else if (!req.headers.authorization) {
+        res.status(401).json({
+            description: 'You must provide a valid jwt to access this route.',
+            status: "FAILURE"
+        });
+    } else {
+        passport.authenticate('jwt', {session: false}, (err, user, info) => {
+            if (user && (!err || !info)) return next();
+            res.status(401).json({
+                description: info,
+                status: "FAILURE"
+            });
+        })(req, res, next);
     }
 }   

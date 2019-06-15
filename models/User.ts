@@ -13,7 +13,7 @@ UserSchema.plugin(uniqueValidator);
 export interface userModel {
     username: string,
     password: string,
-    id: string
+    id: any,
     save: (err: Error) => void
 };
 
