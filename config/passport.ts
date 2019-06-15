@@ -1,5 +1,6 @@
 import { Strategy } from 'passport-local';
-import { User, userModel } from '../models/User';
+import { User } from '../models/User';
+import { userModel } from '../models/Interfaces'
 import bcrypt from 'bcrypt';
 import { Request, Response } from 'express'; 
 import { NextFunction } from 'connect';

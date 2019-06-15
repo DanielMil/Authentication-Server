@@ -11,9 +11,9 @@ import mongoStore from 'connect-mongo';
 import { passwordRouter } from './routes/Password';
 
 const app = express();
-dotenv.config();
 
 // Set environment variables
+dotenv.config();
 const sessionSecret: any = process.env.SESSION_SECRET;
 const dbConnection: any = process.env.MONGO_URI; 
 

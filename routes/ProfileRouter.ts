@@ -29,19 +29,13 @@ router.post('/logout', ensureAuthenticated, (req: Request, res: Response) => {
   req.logOut();
   res.status(200).json({
     description: "Successfully logged out.",
-    status: status.Sucess
+    status: status.Success
   });
 });
 
 router.post('/register', async (req: Request, res: Response) => {
   let { username, password, email } = req.body;
-  if (!username || !password) {
-    res.status(200).json({
-      description: "Missing required field.",
-      status: status.Failure
-    });
-    return;
-  }
+  if (!username || !password) res.redirect('/auth/missingFieldError');
   let newUser = new User({ username, password, email });
   saveUser(newUser, (err: Error) => {
     if (err) { 
@@ -51,7 +45,7 @@ router.post('/register', async (req: Request, res: Response) => {
     } else {
       res.status(200).json({
         description: "Successfully created new user.",
-        status: status.Sucess
+        status: status.Success
       });
     }
   });
@@ -62,7 +56,48 @@ router.get('/user', ensureAuthenticated, (req: Request, res: Response) => {
   delete user.password;
   res.json({
     User: user,
-    status: status.Sucess
+    status: status.Success
+  });
+});
+
+router.put('/user', ensureAuthenticated, (req: Request, res: Response) => {
+  const { username, email } = req.body;
+  if (!username && !email) res.redirect('/auth/missingFieldError');
+  req.user.username = username ? username : req.user.username;
+  req.user.email = email ? email : req.user.email;
+  req.user.save()
+    .then((user: userModel) => {
+      res.json({
+        description: `Successfully updated user ${user.username}`,
+        status: status.Success
+      });
+    })
+    .catch((err: Error) => {
+      res.status(500).json({
+        error: err
+      });
+    });
+});
+
+router.delete('/user', ensureAuthenticated, (req: Request, res: Response) => {
+  User.findByIdAndDelete({ _id: req.user.id })
+    .then((user: userModel) => {
+      res.json({
+        description: `Successfully deleted user ${user.username}`,
+        status: status.Success
+      });
+    })
+    .catch((err: Error) => {
+      res.status(500).json({
+        error: err
+      });
+    });
+});
+
+router.get('/missingFieldError', (req: Request, res: Response) => {
+  res.status(400).json({
+    description: "Missing required field.",
+    status: status.Failure
   });
 });
 
@@ -78,7 +113,7 @@ router.get('/loginSuccess', (req: Request, res: Response) => {
   res.status(200).json({
     description: "Successfully logged in.",
     token: token,
-    status: status.Sucess
+    status: status.Success
   });
 });
 

@@ -37,7 +37,7 @@ router.post('/forgotPassword', async (req: Request, res: Response) => {
             message: "You can use the associated redirect url to compose your endpoint for the 'Reset Password' screen on the client.",
             redirectURL: forgotPasswordURL,
             resetPasswordToken: token,
-            status: status.Sucess
+            status: status.Success
         }); 
     } catch (err) {
         console.error(err);
@@ -61,7 +61,7 @@ router.post('/resetPassword/:token', async (req: Request, res: Response) => {
             } else {
                 res.json({
                     message: `${user.username} - password was successfully updated.`,
-                    status: status.Sucess 
+                    status: status.Success 
                 });
             }
         });
