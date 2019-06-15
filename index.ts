@@ -8,6 +8,7 @@ import { configurePassport } from './config/passport';
 import session from 'express-session'; 
 import cookieParser from 'cookie-parser';
 import mongoStore from 'connect-mongo';
+import { passwordRouter } from './routes/Password';
 
 const app = express();
 dotenv.config();
@@ -47,6 +48,7 @@ app.use(bodyParser.urlencoded({ extended:true }));
 app.use(bodyParser.json());
 
 app.use('/auth', profileRouter);
+app.use('/auth/password', passwordRouter);
 
 const port = process.env.PORT || 5000;
 app.listen(port, () => {

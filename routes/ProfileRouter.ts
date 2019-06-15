@@ -3,7 +3,7 @@ import { User, saveUser } from '../models/User';
 import passport from 'passport';
 import { NextFunction } from 'connect';
 import { ensureAuthenticated } from '../config/passport';
-import { userModel } from '../models/User';
+import { userModel, status } from '../models/Interfaces';
 import jwt from 'jsonwebtoken';
 
 const getToken = (user: userModel) => {
@@ -29,28 +29,29 @@ router.post('/logout', ensureAuthenticated, (req: Request, res: Response) => {
   req.logOut();
   res.status(200).json({
     description: "Successfully logged out.",
-    status: "SUCCESS"
+    status: status.Sucess
   });
 });
 
 router.post('/register', async (req: Request, res: Response) => {
-  let { username, password } = req.body;
+  let { username, password, email } = req.body;
   if (!username || !password) {
     res.status(200).json({
       description: "Missing required field.",
-      status: "FAILURE"
+      status: status.Failure
     });
     return;
   }
-  let newUser = new User({ username, password });
+  let newUser = new User({ username, password, email });
   saveUser(newUser, (err: Error) => {
-    if (err) res.status(500).json({
-      error: err
-    });
-    else {
+    if (err) { 
+      res.status(500).json({
+        error: err
+      });
+    } else {
       res.status(200).json({
         description: "Successfully created new user.",
-        status: "SUCCESS"
+        status: status.Sucess
       });
     }
   });
@@ -61,14 +62,14 @@ router.get('/user', ensureAuthenticated, (req: Request, res: Response) => {
   delete user.password;
   res.json({
     User: user,
-    status: "SUCCESS"
+    status: status.Sucess
   });
 });
 
 router.get('/invalidSession', (req: Request, res: Response) => {
-  res.status(400).json({
+  res.status(401).json({
     description: "There is no user in session.",
-    status: "FAILURE"
+    status: status.Failure
   });
 });
 
@@ -77,14 +78,14 @@ router.get('/loginSuccess', (req: Request, res: Response) => {
   res.status(200).json({
     description: "Successfully logged in.",
     token: token,
-    status: "SUCCESS"
+    status: status.Sucess
   });
 });
 
 router.get('/loginFailure', (req: Request, res: Response) => {
   res.status(400).json({
     description: "Invalid credentials. There was an issue logging in to your account.",
-    status: "FAILURE"
+    status: status.Failure
   });
 });
 

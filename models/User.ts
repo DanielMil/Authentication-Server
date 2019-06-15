@@ -1,21 +1,18 @@
 import mongoose, { Schema } from 'mongoose';
 import uniqueValidator  from 'mongoose-unique-validator';
 import bcrypt from 'bcrypt';
+import { userModel } from './Interfaces'
 
 // User model config
 const UserSchema: mongoose.Schema<any>  = new Schema({ 
     username: {type: String, required: true, unique: true },
-    password: {type: String, required: true }
+    password: {type: String, required: true },
+    email: {type: String, required: true },
+    resetPasswordToken: {type: String},
+    resetPasswordExpiration: {type: String}
  });
 
 UserSchema.plugin(uniqueValidator);
-
-export interface userModel {
-    username: string,
-    password: string,
-    id: any,
-    save: (err: Error) => void
-};
 
 export const User: mongoose.Model<any> = mongoose.model("User", UserSchema);
 
