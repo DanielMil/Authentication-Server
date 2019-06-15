@@ -16,8 +16,8 @@ UserSchema.plugin(uniqueValidator);
 export interface userModel {
     username: string,
     password: string,
-    id: string,
     email: string, 
+    id: any,
     resetPasswordToken: string,
     resetPasswordExpiration: number,
     save: (err?: Error) => void

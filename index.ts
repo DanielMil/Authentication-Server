@@ -13,9 +13,12 @@ import { passwordRouter } from './routes/Password';
 const app = express();
 dotenv.config();
 
+// Set environment variables
+const sessionSecret: any = process.env.SESSION_SECRET;
+const dbConnection: any = process.env.MONGO_URI; 
+
 // Mongo config
-const DB_CONNECTION: any = process.env.MONGO_URI; 
-mongoose.connect(DB_CONNECTION, { useNewUrlParser: true })
+mongoose.connect(dbConnection, { useNewUrlParser: true })
  .then(() => console.log("Succesfully connected to MongoDB."))
  .catch((err: mongoose.Error) => console.error(err));
 const MongoStore = mongoStore(session); 
@@ -29,7 +32,7 @@ mongoose.set('useCreateIndex', true);
 // Configure express session
 app.use(cookieParser());
 app.use(session({
-    secret: "secret",
+    secret: sessionSecret,
     resave: true,
     saveUninitialized: true,
     store: new MongoStore({ mongooseConnection: db })
