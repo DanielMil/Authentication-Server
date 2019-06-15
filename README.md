@@ -65,8 +65,9 @@ npm run dev # Runs server with nodemon
 - [x] Endpoints to login, register, logout and get current user in session.
 - [x] Containerized and exposed with Docker.
 - [x] Support user sessions with cookies.
-- [ ] JWT Support.
+- [x] JWT Support.
+- [x] Endpoints for updating user, deleting user and forgotten passwords.
+- [ ] Option for TLS/SSL encryped https routes through config. Option to allow CORS.
 - [ ] Database configuration between MongoDB and SQL using Sequelize.
-- [ ] Option for TLS/SSL encryped https routes through config.
 - [ ] Swagger?
-- [ ] Endpoints for updating user, deleting user and forgotten passwords.
+
