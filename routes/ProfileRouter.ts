@@ -3,6 +3,18 @@ import { User, saveUser } from '../models/User';
 import passport from 'passport';
 import { NextFunction } from 'connect';
 import { ensureAuthenticated } from '../config/passport';
+import { userModel } from '../models/User';
+import jwt from 'jsonwebtoken';
+
+const getToken = (user: userModel) => {
+  const secret: any = process.env.JWT_SECRET;
+  return jwt.sign({
+    iss: 'auth-server',
+    sub: user.id,
+    iat: new Date().getTime(),
+    exp: new Date().setDate(new Date().getDate() + 1)
+  }, secret);
+}
 
 const router: Router = Router();
 
@@ -61,8 +73,10 @@ router.get('/invalidSession', (req: Request, res: Response) => {
 });
 
 router.get('/loginSuccess', (req: Request, res: Response) => {
+  const token = getToken(req.user);
   res.status(200).json({
     description: "Successfully logged in.",
+    token: token,
     status: "SUCCESS"
   });
 });
