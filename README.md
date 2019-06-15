@@ -15,7 +15,17 @@
 > Create a .env file for your configurations in the root directory. Copy the following configuration and edit appropriately.
 
 ```INI
-MONGO_URI = mongodb://mongo:27017/<database name>
+# MongoDB connection
+MONGO_URI = mongodb://mongo:27017/<database>
+
+# Email credentials for forgotten password email reset
+EMAIL_ADDRESS = <email> 
+EMAIL_PASSWORD = <password>
+
+# Secrets for JWT and Express-Session.
+# Secrets should be a random, private string.
+JWT_SECRET = <secret>
+SESSION_SECRET = <secret>
 ```
 
 ### With Docker (Recommended)
