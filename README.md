@@ -1,8 +1,6 @@
 # Simple Authentication Service
 
-> Containerized authentication server intended to bootstrap the authentication process for small apps. This app can handle common authentication routes and user sessions. The intention is for this service to be easy to configure and run, and as a starting point for most projects.
-
-> The service currently uses Passport.js with MongoDB, but there are plans to implement a SQL configuration in the near future.
+> This application is intended to be a bootstrap or proof of concept for designing a containerized authentication microservice. The server is easy to run and configure, and currently supports user registration, login, sessions, password recovery and JWT. 
 
 ## Installation 
 
