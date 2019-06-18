@@ -1,6 +1,6 @@
 import { Strategy } from 'passport-local';
 import { User } from '../models/User';
-import { userModel } from '../models/Interfaces'
+import { userModel, status } from '../models/Interfaces'
 import bcrypt from 'bcrypt';
 import { Request, Response } from 'express'; 
 import { NextFunction } from 'connect';
@@ -57,14 +57,14 @@ export function ensureAuthenticated(req: Request, res: Response, next: NextFunct
     } else if (!req.headers.authorization) {
         res.status(401).json({
             description: 'You must provide a valid jwt to access this route.',
-            status: "FAILURE"
+            status: status.Failure
         });
     } else {
         passport.authenticate('jwt', {session: false}, (err, user, info) => {
             if (user && (!err || !info)) return next();
             res.status(401).json({
                 description: info,
-                status: "FAILURE"
+                status: status.Failure
             });
         })(req, res, next);
     }
