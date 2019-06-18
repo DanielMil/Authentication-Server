@@ -33,8 +33,8 @@ mongoose.set('useCreateIndex', true);
 app.use(cookieParser());
 app.use(session({
     secret: sessionSecret,
-    resave: true,
-    saveUninitialized: true,
+    resave: false,
+    saveUninitialized: false,
     store: new MongoStore({ mongooseConnection: db })
 }));
 
