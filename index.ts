@@ -9,6 +9,7 @@ import session from 'express-session';
 import cookieParser from 'cookie-parser';
 import mongoStore from 'connect-mongo';
 import { passwordRouter } from './routes/Password';
+import { redirectRouter } from './routes/Redirect';
 
 const app = express();
 
@@ -49,6 +50,7 @@ app.use(bodyParser.json());
 
 app.use('/auth', profileRouter);
 app.use('/auth/password', passwordRouter);
+app.use('/redirect/', redirectRouter); 
 
 const port = process.env.PORT || 5000;
 app.listen(port, () => {

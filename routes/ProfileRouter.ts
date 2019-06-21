@@ -3,25 +3,15 @@ import { User, saveUser } from '../models/User';
 import passport from 'passport';
 import { NextFunction } from 'connect';
 import { ensureAuthenticated } from '../config/passport';
-import { userModel, status } from '../models/Interfaces';
-import jwt from 'jsonwebtoken';
-
-const getToken = (user: userModel) => {
-  const secret: any = process.env.JWT_SECRET;
-  return jwt.sign({
-    iss: 'auth-server',
-    sub: user.id,
-    iat: new Date().getTime(),
-    exp: new Date().setDate(new Date().getDate() + 1)
-  }, secret);
-}
+import { userModel } from '../models/Interfaces';
+import { sendResponse } from '../config/APIUtils';
 
 const router: Router = Router();
 
 router.post('/login', (req: Request, res: Response, next: NextFunction) => {
   passport.authenticate('local', {
-    successRedirect: '/auth/loginSuccess',
-    failureRedirect: '/auth/loginFailure'
+    successRedirect: '/redirect/loginSuccess',
+    failureRedirect: '/redirect/loginFailure'
   })(req, res, next);
 });
 
@@ -35,13 +25,11 @@ router.post('/logout', ensureAuthenticated, (req: Request, res: Response) => {
 
 router.post('/register', async (req: Request, res: Response) => {
   let { username, password, email } = req.body;
-  if (!username || !password) res.redirect('/auth/missingFieldError');
+  if (!username || !password) res.redirect('/redirect/missingFieldError');
   let newUser = new User({ username, password, email });
   saveUser(newUser, (err: Error) => {
     if (err) { 
-      res.status(500).json({
-        error: err
-      });
+      sendResponse(err, 500, res, false);
     } else {
       res.status(200).json({
         description: "Successfully created new user.",
@@ -62,7 +50,7 @@ router.get('/user', ensureAuthenticated, (req: Request, res: Response) => {
 
 router.put('/user', ensureAuthenticated, (req: Request, res: Response) => {
   const { username, email } = req.body;
-  if (!username && !email) res.redirect('/auth/missingFieldError');
+  if (!username && !email) return res.redirect('/redirect/missingFieldError');
   req.user.username = username ? username : req.user.username;
   req.user.email = email ? email : req.user.email;
   req.user.save()
@@ -73,9 +61,7 @@ router.put('/user', ensureAuthenticated, (req: Request, res: Response) => {
       });
     })
     .catch((err: Error) => {
-      res.status(500).json({
-        error: err
-      });
+      sendResponse(err, 500, res, false);
     });
 });
 
@@ -88,40 +74,10 @@ router.delete('/user', ensureAuthenticated, (req: Request, res: Response) => {
       });
     })
     .catch((err: Error) => {
-      res.status(500).json({
-        error: err
-      });
+      sendResponse(err, 500, res, false);
     });
 });
 
-router.get('/missingFieldError', (req: Request, res: Response) => {
-  res.status(400).json({
-    description: "Missing required field.",
-    status: status.Failure
-  });
-});
 
-router.get('/invalidSession', (req: Request, res: Response) => {
-  res.status(401).json({
-    description: "There is no user in session.",
-    status: status.Failure
-  });
-});
-
-router.get('/loginSuccess', (req: Request, res: Response) => {
-  const token = getToken(req.user);
-  res.status(200).json({
-    description: "Successfully logged in.",
-    token: token,
-    status: status.Success
-  });
-});
-
-router.get('/loginFailure', (req: Request, res: Response) => {
-  res.status(400).json({
-    description: "Invalid credentials. There was an issue logging in to your account.",
-    status: status.Failure
-  });
-});
 
 export const profileRouter: Router = router

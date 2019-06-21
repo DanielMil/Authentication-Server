@@ -1,11 +1,12 @@
 import { Strategy } from 'passport-local';
 import { User } from '../models/User';
-import { userModel, status } from '../models/Interfaces'
+import { userModel } from '../models/Interfaces'
 import bcrypt from 'bcrypt';
 import { Request, Response } from 'express'; 
 import { NextFunction } from 'connect';
 import { Strategy as jwtStrategy, ExtractJwt } from 'passport-jwt';
 import passport from 'passport';
+import { sendResponse } from './APIUtils';
 
 export function configurePassport(passport: any) {
     passport.use(
@@ -53,19 +54,13 @@ export function configurePassport(passport: any) {
 
 export function ensureAuthenticated(req: Request, res: Response, next: NextFunction) {
     if (!req.isAuthenticated()) {
-        res.redirect('/auth/invalidSession');
+        res.redirect('/redirect/invalidSession');
     } else if (!req.headers.authorization) {
-        res.status(401).json({
-            description: 'You must provide a valid jwt to access this route.',
-            status: status.Failure
-        });
+        sendResponse('You must provide a valid jwt to access this route.', 401, res);
     } else {
         passport.authenticate('jwt', {session: false}, (err, user, info) => {
             if (user && (!err || !info)) return next();
-            res.status(401).json({
-                description: info,
-                status: status.Failure
-            });
+            sendResponse(info, 401, res);
         })(req, res, next);
     }
 }   
