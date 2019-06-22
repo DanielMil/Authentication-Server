@@ -17,10 +17,7 @@ router.post('/login', (req: Request, res: Response, next: NextFunction) => {
 
 router.post('/logout', ensureAuthenticated, (req: Request, res: Response) => {
   req.logOut();
-  res.status(200).json({
-    description: "Successfully logged out.",
-    status: status.Success
-  });
+  sendResponse("Successfully logged out.", 200, res);
 });
 
 router.post('/register', async (req: Request, res: Response) => {
@@ -29,12 +26,9 @@ router.post('/register', async (req: Request, res: Response) => {
   let newUser = new User({ username, password, email });
   saveUser(newUser, (err: Error) => {
     if (err) { 
-      sendResponse(err, 500, res, false);
+      sendResponse(err, 500, res);
     } else {
-      res.status(200).json({
-        description: "Successfully created new user.",
-        status: status.Success
-      });
+      sendResponse("Successfully created new user.", 200, res);
     }
   });
 });
@@ -42,10 +36,7 @@ router.post('/register', async (req: Request, res: Response) => {
 router.get('/user', ensureAuthenticated, (req: Request, res: Response) => {
   let user: any =  new Object(JSON.parse(JSON.stringify(req.user)));
   delete user.password;
-  res.json({
-    User: user,
-    status: status.Success
-  });
+  sendResponse(user, 200, res);
 });
 
 router.put('/user', ensureAuthenticated, (req: Request, res: Response) => {
@@ -55,29 +46,21 @@ router.put('/user', ensureAuthenticated, (req: Request, res: Response) => {
   req.user.email = email ? email : req.user.email;
   req.user.save()
     .then((user: userModel) => {
-      res.json({
-        description: `Successfully updated user ${user.username}`,
-        status: status.Success
-      });
+      sendResponse(`Successfully updated user ${user.username}`, 200, res);
     })
     .catch((err: Error) => {
-      sendResponse(err, 500, res, false);
+      sendResponse(err, 500, res);
     });
 });
 
 router.delete('/user', ensureAuthenticated, (req: Request, res: Response) => {
   User.findByIdAndDelete({ _id: req.user.id })
     .then((user: userModel) => {
-      res.json({
-        description: `Successfully deleted user ${user.username}`,
-        status: status.Success
-      });
+      sendResponse(`Successfully deleted user ${user.username}`, 200, res);
     })
     .catch((err: Error) => {
-      sendResponse(err, 500, res, false);
+      sendResponse(err, 500, res);
     });
-});
-
-
+})
 
 export const profileRouter: Router = router
