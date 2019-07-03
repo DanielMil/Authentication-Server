@@ -16,6 +16,9 @@
 # MongoDB connection
 MONGO_URI = mongodb://mongo:27017/<database>
 
+# When running locally.
+# MONGO_URI = mongodb://localhost:27017/<database>
+
 # Email credentials for forgotten password email reset
 EMAIL_ADDRESS = <email> 
 EMAIL_PASSWORD = <password>
