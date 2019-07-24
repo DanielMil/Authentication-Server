@@ -1,7 +1,8 @@
 import { Response } from 'express';
 import { status } from '../models/Interfaces';
 import bcrypt from 'bcrypt';
-
+import jwt from 'jsonwebtoken';
+import { userModel } from '../models/Interfaces';
 
 export function sendResponse(info: any, statusCode: number, res: Response): void {
     res.status(statusCode).json({
@@ -18,4 +19,14 @@ export async function getHashedPassword(password: string): Promise<any> {
         console.log(err); 
         return null;
     }
+}
+
+export const getToken = (user: userModel) => {
+    const secret: any = process.env.JWT_SECRET;
+    return jwt.sign({
+      iss: 'auth-server',
+      sub: user.id,
+      iat: new Date().getTime(),
+      exp: new Date().setDate(new Date().getDate() + 1)
+    }, secret);
 }

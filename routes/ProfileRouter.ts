@@ -4,20 +4,9 @@ import passport from 'passport';
 import { NextFunction } from 'connect';
 import { ensureAuthenticated } from '../config/passport';
 import { userModel } from '../models/Interfaces';
-import { sendResponse, getHashedPassword } from '../config/APIUtils';
-import jwt from 'jsonwebtoken';
+import { sendResponse, getHashedPassword, getToken } from '../config/APIUtils';
 
 const router: Router = Router();
-
-const getToken = (user: userModel) => {
-  const secret: any = process.env.JWT_SECRET;
-  return jwt.sign({
-    iss: 'auth-server',
-    sub: user.id,
-    iat: new Date().getTime(),
-    exp: new Date().setDate(new Date().getDate() + 1)
-  }, secret);
-}
 
 router.post('/login', (req: Request, res: Response, next: NextFunction) => {
   passport.authenticate('local', {session: false}, (err, user) => {
