@@ -1,6 +1,6 @@
 # Simple Authentication Service
 
-> This application is intended to be a bootstrap or proof of concept for designing a containerized authentication microservice. The server is easy to run and configure, and currently supports user registration, login, sessions, password recovery and JWT. 
+This application is intended to be a bootstrap or proof of concept for designing a containerized authentication microservice. The server is easy to run and configure, and currently supports user registration, login, sessions, password recovery and JWT. 
 
 ## Installation 
 
