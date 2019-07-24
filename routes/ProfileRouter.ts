@@ -11,7 +11,7 @@ const router: Router = Router();
 router.post('/login', (req: Request, res: Response, next: NextFunction) => {
   passport.authenticate('local', {session: false}, (err, user) => {
     if (err || !user) {
-      console.error(err);
+      console.log(err);
       return res.redirect('/redirect/loginFailure');
     }
     const token = getToken(user);

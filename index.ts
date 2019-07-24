@@ -21,7 +21,7 @@ const dbConnection: any = process.env.MONGO_URI;
 // Mongo config
 mongoose.connect(dbConnection, { useNewUrlParser: true })
  .then(() => console.log("Succesfully connected to MongoDB."))
- .catch((err: mongoose.Error) => console.error(err));
+ .catch((err: mongoose.Error) => console.log(err));
 const MongoStore = mongoStore(session); 
 const db: any  = mongoose.connection;
  
