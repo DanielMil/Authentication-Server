@@ -111,3 +111,5 @@ POST /auth/password/resetPassword/:resetPasswordToken
 - [x] Support user sessions with cookies.
 - [x] JWT Support.
 - [x] Endpoints for updating user, deleting user and forgotten passwords.
+- [ ] Change username field to email
+- [ ] Refactor all code to use async-await
