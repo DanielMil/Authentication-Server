@@ -63,14 +63,47 @@ npm run dev # Runs server with nodemon
 ---
 
 ## Endpoints
+### Register
+```shell
+POST /auth/register
+```
+#### Body
+#### Response
+
 ### Login
-### Sign Up
+```shell
+POST /auth/login
+```
+
 ### Get Current User
+```shell
+GET /auth/user
+```
+
 ### Update User
+```shell
+PUT /auth/user
+```
+
 ### Delete User
+```shell
+DELETE /auth/user
+```
+
 ### Logout
+```shell
+POST /auth/logout
+```
+
 ### Forgot Password
+```shell
+POST /auth/password/forgotPassword
+```
+
 ### Reset Password
+```shell
+POST /auth/password/resetPassword/:resetPasswordToken
+```
 
 ## Features
 - [x] Endpoints to login, register, logout and get current user in session.
