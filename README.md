@@ -62,6 +62,16 @@ npm run dev # Runs server with nodemon
 ```
 ---
 
+## Endpoints
+### Login
+### Sign Up
+### Get Current User
+### Update User
+### Delete User
+### Logout
+### Forgot Password
+### Reset Password
+
 ## Features
 - [x] Endpoints to login, register, logout and get current user in session.
 - [x] Containerized and exposed with Docker.
