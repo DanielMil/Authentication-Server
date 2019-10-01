@@ -22,10 +22,10 @@ router.post('/logout', ensureAuthenticated, (req: Request, res: Response) => {
 
 router.post('/register', async (req: Request, res: Response) => {
   let { username, password, email } = req.body;
-  if (!username || !password) res.redirect('/redirect/missingFieldError');
+  if (!username || !password) return res.redirect('/redirect/missingFieldError');
   let newUser = new User({ username, password, email });
   saveUser(newUser, (err: Error) => {
-    if (err) { 
+    if (err) {
       sendResponse(err, 500, res);
     } else {
       sendResponse("Successfully created new user.", 200, res);
@@ -34,7 +34,7 @@ router.post('/register', async (req: Request, res: Response) => {
 });
 
 router.get('/user', ensureAuthenticated, (req: Request, res: Response) => {
-  let user: any =  new Object(JSON.parse(JSON.stringify(req.user)));
+  let user: any = new Object(JSON.parse(JSON.stringify(req.user)));
   delete user.password;
   sendResponse(user, 200, res);
 });
