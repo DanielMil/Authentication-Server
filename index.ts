@@ -1,6 +1,5 @@
 import express from 'express';
 import * as bodyParser from 'body-parser';
-import { profileRouter } from './routes/ProfileRouter';
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 import passport = require('passport');
@@ -10,6 +9,8 @@ import cookieParser from 'cookie-parser';
 import mongoStore from 'connect-mongo';
 import { passwordRouter } from './routes/Password';
 import { redirectRouter } from './routes/Redirect';
+import { databaseRouter } from './routes/development/Database'
+import { profileRouter } from './routes/ProfileRouter';
 
 const app = express();
 
@@ -51,6 +52,7 @@ app.use(bodyParser.json());
 app.use('/auth', profileRouter);
 app.use('/auth/password', passwordRouter);
 app.use('/redirect/', redirectRouter);
+app.use('/dev', databaseRouter);
 
 const port = process.env.PORT || 5000;
 app.listen(port, () => {

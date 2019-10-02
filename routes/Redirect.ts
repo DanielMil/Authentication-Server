@@ -4,13 +4,13 @@ import jwt from 'jsonwebtoken';
 import { sendResponse } from '../config/APIUtils';
 
 const getToken = (user: userModel) => {
-  const secret: any = process.env.JWT_SECRET;
-  return jwt.sign({
-    iss: 'auth-server',
-    sub: user.id,
-    iat: new Date().getTime(),
-    exp: new Date().setDate(new Date().getDate() + 1)
-  }, secret);
+    const secret: any = process.env.JWT_SECRET;
+    return jwt.sign({
+        iss: 'auth-server',
+        sub: user.id,
+        iat: new Date().getTime(),
+        exp: new Date().setDate(new Date().getDate() + 1)
+    }, secret);
 }
 
 const router: Router = Router();
@@ -27,11 +27,11 @@ router.get('/loginSuccess', (req: Request, res: Response) => {
 router.get('/missingFieldError', (req: Request, res: Response) => {
     sendResponse("Missing required field.", 400, res);
 });
-  
+
 router.get('/invalidSession', (req: Request, res: Response) => {
     sendResponse("There is no user in session.", 401, res);
 });
-  
+
 router.get('/loginFailure', (req: Request, res: Response) => {
     sendResponse("Invalid credentials. There was an issue logging in to your account.", 400, res);
 });
@@ -42,6 +42,10 @@ router.get('/forgotPasswordTokenError', (req: Request, res: Response) => {
 
 router.get('/forgotPasswordEmailError', (req: Request, res: Response) => {
     sendResponse("Invalid email.", 400, res);
+});
+
+router.get('/invalidModeError', (req: Request, res: Response) => {
+    sendResponse("Cannot perform this action for the current environment configuration.", 400, res);
 });
 
 export const redirectRouter: Router = router
