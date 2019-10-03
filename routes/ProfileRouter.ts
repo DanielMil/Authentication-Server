@@ -28,8 +28,8 @@ router.post('/register', async (req: Request, res: Response) => {
   if (!email || !password) return res.redirect('/redirect/missingFieldError');
   try {
     let hashedPassword = await getHashedPassword(password);
-    let newUser = new User({ email, hashedPassword });
-    newUser.save();
+    let newUser = new User({ email, password: hashedPassword });
+    await newUser.save();
     sendResponse("Successfully created new user.", 200, res);
   } catch (err) {
     console.log(err);
@@ -72,4 +72,4 @@ router.delete('/user', ensureAuthenticated, (req: Request, res: Response) => {
     });
 })
 
-export const profileRouter: Router = router
+export const profileRouter: Router = router;

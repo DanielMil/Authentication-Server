@@ -1,14 +1,13 @@
 import mongoose, { Schema } from 'mongoose';
-import uniqueValidator  from 'mongoose-unique-validator';
+import uniqueValidator from 'mongoose-unique-validator';
 
 // User model config
-const UserSchema: mongoose.Schema<any>  = new Schema({ 
-    username: {type: String, required: true, unique: true },
-    password: {type: String, required: true },
-    email: {type: String, required: true },
-    resetPasswordToken: {type: String},
-    resetPasswordExpiration: {type: String}
- });
+const UserSchema: mongoose.Schema<any> = new Schema({
+    password: { type: String, required: true },
+    email: { type: String, required: true, unique: true },
+    resetPasswordToken: { type: String },
+    resetPasswordExpiration: { type: String }
+});
 
 UserSchema.plugin(uniqueValidator);
 
