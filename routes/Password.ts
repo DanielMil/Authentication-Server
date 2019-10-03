@@ -1,9 +1,9 @@
 import { Router, Request, Response } from 'express';
-import { User, saveUser } from '../models/User';
+import { User } from '../models/User';
 import crypto from 'crypto';
 import nodemailer from 'nodemailer';
 import { userModel, MailObject } from '../models/Interfaces';
-import { sendResponse } from '../config/APIUtils';
+import { sendResponse, getHashedPassword } from '../config/APIUtils';
 
 const router: Router = Router();
 
@@ -23,11 +23,10 @@ router.post('/forgotPassword', async (req: Request, res: Response) => {
         const info = getResponseObject(forgotPasswordURL, token);
         sendResponse(info, 200, res);
     } catch (err) {
-        console.error(err);
+        console.log(err);
         res.redirect('/redirect/forgotPasswordEmailError');
     }
 });
-
 
 router.post('/resetPassword/:token', async (req: Request, res: Response) => {
     try {
@@ -36,15 +35,12 @@ router.post('/resetPassword/:token', async (req: Request, res: Response) => {
         user.password = req.body.password;
         user.resetPasswordToken = undefined;
         user.resetPasswordExpiration = undefined;
-        await saveUser(user, (err: Error) => {
-            if (err) { 
-                sendResponse(err, 500, res);
-            } else {
-                sendResponse(`${user.username} - password was successfully updated.`, 200, res);
-            }
-        });
+        const password = await getHashedPassword(req.body.password);
+        user.password = password;
+        await user.save();
+        sendResponse(`Password was successfully updated.`, 200, res);
     } catch (err) {
-        console.error(err);
+        console.log(err);
         res.redirect('/redirect/forgotPasswordTokenError');
     }
 });

@@ -15,12 +15,12 @@ export function configurePassport(passport: any) {
             .then((user) => {
                 if (!user) return done(null, false, { message: 'Cannot find user.'});
                 bcrypt.compare(password, user.password, (err: Error, isMatch: boolean) => {
-                    if (err) console.error(err);
+                    if (err) console.log(err);
                     if (isMatch) return done(null, user);
                     else done(null, false, {message: 'Passwords do not match!'});
                 });
             })
-            .catch((err) => console.error(err));
+            .catch((err) => console.log(err));
         })
     );
 
@@ -34,7 +34,7 @@ export function configurePassport(passport: any) {
                 done(null, user); 
             })  
             .catch((err) => {
-                console.error(err);
+                console.log(err);
                 done(err, false);
             });
         })
@@ -46,7 +46,7 @@ export function configurePassport(passport: any) {
 
     passport.deserializeUser((id: string, done: any) => {
         User.findById(id, (err, user)=> {
-            if (err) console.error(err);
+            if (err) console.log(err);
             done(null, user);
         });
     });
