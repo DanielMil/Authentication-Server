@@ -1,6 +1,6 @@
 # Simple Authentication Service
 
-> This application is intended to be a bootstrap or proof of concept for designing a containerized authentication microservice. The server is easy to run and configure, and currently supports user registration, login, sessions, password recovery and JWT. 
+This application is intended to be a bootstrap or proof of concept for designing a containerized authentication microservice. The server is easy to run and configure, and currently supports user registration, login, sessions, password recovery and JWT. 
 
 ## Installation 
 
@@ -15,6 +15,9 @@
 ```INI
 # MongoDB connection
 MONGO_URI = mongodb://mongo:27017/<database>
+
+# When running locally.
+# MONGO_URI = mongodb://localhost:27017/<database>
 
 # Email credentials for forgotten password email reset
 EMAIL_ADDRESS = <email> 
@@ -59,13 +62,54 @@ npm run dev # Runs server with nodemon
 ```
 ---
 
+## Endpoints
+### Register
+```shell
+POST /auth/register
+```
+#### Body
+#### Response
+
+### Login
+```shell
+POST /auth/login
+```
+
+### Get Current User
+```shell
+GET /auth/user
+```
+
+### Update User
+```shell
+PUT /auth/user
+```
+
+### Delete User
+```shell
+DELETE /auth/user
+```
+
+### Logout
+```shell
+POST /auth/logout
+```
+
+### Forgot Password
+```shell
+POST /auth/password/forgotPassword
+```
+
+### Reset Password
+```shell
+POST /auth/password/resetPassword/:resetPasswordToken
+```
+
 ## Features
 - [x] Endpoints to login, register, logout and get current user in session.
 - [x] Containerized and exposed with Docker.
 - [x] Support user sessions with cookies.
 - [x] JWT Support.
 - [x] Endpoints for updating user, deleting user and forgotten passwords.
-- [ ] Option for TLS/SSL encryped https routes through config. Option to allow CORS.
-- [ ] Database configuration between MongoDB and SQL using Sequelize.
-- [ ] Swagger?
-
+- [ ] Change username field to email
+- [ ] Refactor all code to use async-await

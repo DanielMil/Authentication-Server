@@ -37,6 +37,11 @@ router.post('/register', async (req: Request, res: Response) => {
   }
 });
 
+router.post('/logout', ensureAuthenticated, (req: Request, res: Response) => {
+  req.logOut();
+  sendResponse("Successfully logged out.", 200, res);
+});
+
 router.get('/user', ensureAuthenticated, (req: Request, res: Response) => {
   let user: any =  new Object(JSON.parse(JSON.stringify(req.user)));
   delete user.password;
