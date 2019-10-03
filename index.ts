@@ -19,10 +19,18 @@ dotenv.config();
 const sessionSecret: any = process.env.SESSION_SECRET;
 const dbConnection: any = process.env.MONGO_URI;
 
-// Mongo config
-mongoose.connect(dbConnection, { useNewUrlParser: true })
-    .then(() => console.log("Succesfully connected to MongoDB."))
-    .catch((err: mongoose.Error) => console.error(err));
+// Initialize db and server
+const init = async (port: string) => {
+    try {
+        await mongoose.connect(dbConnection, { useNewUrlParser: true });
+        console.log('Successfully connected to MongoDB.');
+        await app.listen(port);
+        console.log('Listening on port ' + port);
+    } catch (err) {
+        console.log(err);
+    }
+}
+
 const MongoStore = mongoStore(session);
 const db: any = mongoose.connection;
 
@@ -54,7 +62,5 @@ app.use('/auth/password', passwordRouter);
 app.use('/redirect/', redirectRouter);
 app.use('/dev', databaseRouter);
 
-const port = process.env.PORT || 5000;
-app.listen(port, () => {
-    console.log('Listening on port ' + port);
-});
+const port: any = process.env.PORT || 5000;
+init(port); 
