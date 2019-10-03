@@ -7,7 +7,7 @@
     "start": "node build/index.js",
     "compile": "tsc -w",
     "dev": "nodemon build/index.js",
-    "test": "mocha"
+    "test": "mocha --recursive"
   },
   "repository": {
     "type": "git",
