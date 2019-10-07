@@ -6,9 +6,8 @@
   "scripts": {
     "start": "node build/index.js",
     "compile": "./src/tsc -w",
-    "dev": "nodemon ./build/index.js",
-    "test": "mocha -r ts-node/register test/**/*.test.ts",
-    "test-dev": "nodemon ./build/index.js --watch . --ext ts --exec \"mocha -r ts-node/register test/**/*.test.ts\""
+    "dev": "nodemon ./build/index.js --watch . --ext ts --exec",
+    "test": "mocha -r ts-node/register test/**/*.test.ts"
   },
   "repository": {
     "type": "git",
@@ -65,6 +64,7 @@
     "chai": "^4.2.0",
     "mocha": "^6.2.1",
     "supertest": "^4.0.2",
+    "supertest-session": "^4.0.0",
     "ts-mocha": "^6.0.0",
     "ts-node": "^8.4.1",
     "ts-node-test-register": "^8.0.1"

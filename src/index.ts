@@ -73,4 +73,4 @@ app.use('/dev', databaseRouter);
 const port: any = process.env.PORT || 5000;
 init(port);
 
-export default app; 
+export default app;
