@@ -6,9 +6,9 @@
   "scripts": {
     "start": "node build/index.js",
     "compile": "./src/tsc -w",
-    "dev": "nodemon ./src/build/index.js",
+    "dev": "nodemon ./build/index.js",
     "test": "mocha -r ts-node/register test/**/*.test.ts",
-    "test-dev": "nodemon --watch . --ext ts --exec \"mocha -r ts-node/register test/**/*.test.ts\""
+    "test-dev": "nodemon ./build/index.js --watch . --ext ts --exec \"mocha -r ts-node/register test/**/*.test.ts\""
   },
   "repository": {
     "type": "git",
