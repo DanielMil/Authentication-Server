@@ -1,4 +1,5 @@
 import express from 'express';
+import { Request, Response } from 'express';
 import * as bodyParser from 'body-parser';
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
@@ -13,6 +14,13 @@ import { databaseRouter } from './routes/development/Database'
 import { profileRouter } from './routes/ProfileRouter';
 
 const app = express();
+
+app.use((req: Request, res: Response, next: any) => {
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Credentials', 'true');
+    res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+    next();
+});
 
 // Set environment variables
 dotenv.config();
@@ -63,4 +71,6 @@ app.use('/redirect/', redirectRouter);
 app.use('/dev', databaseRouter);
 
 const port: any = process.env.PORT || 5000;
-init(port); 
+init(port);
+
+export default app; 

@@ -9,7 +9,7 @@ import { sendResponse, getHashedPassword, getToken } from '../config/APIUtils';
 const router: Router = Router();
 
 router.post('/login', (req: Request, res: Response, next: NextFunction) => {
-  passport.authenticate('local', { session: false }, (err, user) => {
+  passport.authenticate('local', async (err, user) => {
     if (err || !user) {
       console.log(err);
       return res.redirect('/redirect/loginFailure');
@@ -17,9 +17,12 @@ router.post('/login', (req: Request, res: Response, next: NextFunction) => {
     const token = getToken(user);
     const info = {
       description: "Successfully logged in.",
-      token: token,
+      token
     };
-    sendResponse(info, 200, res);
+    req.logIn(user, (err) => {
+      sendResponse(info, 200, res);
+      if (err) return res.redirect('/redirect/loginFailure');
+    });
   })(req, res, next);
 });
 
