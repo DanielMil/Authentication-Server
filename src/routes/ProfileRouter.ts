@@ -2,9 +2,9 @@ import { Router, Request, Response } from 'express';
 import { User } from '../models/User';
 import passport from 'passport';
 import { NextFunction } from 'connect';
-import { ensureAuthenticated } from '../config/passport';
+import { ensureAuthenticated } from '../utils/passport';
 import { userModel } from '../models/Interfaces';
-import { sendResponse, getHashedPassword, getToken, validateEmailPattern } from '../config/APIUtils';
+import { sendResponse, getHashedPassword, getToken, validateEmailPattern } from '../utils/APIUtils';
 
 const router: Router = Router();
 

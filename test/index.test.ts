@@ -19,7 +19,8 @@ describe('Happy path', async () => {
       .send({
         email: "JaneDoe@hotmail.com",
         password: "password"
-      });
+      })
+      .expect(200)
   });
 
   it('should POST login', async () => {

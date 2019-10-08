@@ -1,5 +1,5 @@
 import { Router, Request, Response } from 'express';
-import { sendResponse } from '../config/APIUtils';
+import { sendResponse } from '../utils/APIUtils';
 import jwt from 'jsonwebtoken';
 
 const getToken = (user: any) => {

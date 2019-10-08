@@ -3,7 +3,7 @@ import { User } from '../models/User';
 import crypto from 'crypto';
 import nodemailer from 'nodemailer';
 import { userModel, MailObject } from '../models/Interfaces';
-import { sendResponse, getHashedPassword } from '../config/APIUtils';
+import { sendResponse, getHashedPassword } from '../utils/APIUtils';
 
 const router: Router = Router();
 
