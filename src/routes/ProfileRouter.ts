@@ -29,6 +29,7 @@ router.post('/login', (req: Request, res: Response, next: NextFunction) => {
 router.post('/register', async (req: Request, res: Response) => {
   const { email, password, additionalInfo } = req.body;
   if (!email || !password) return res.redirect('/redirect/missingFieldError');
+  if (!validateEmailPattern(email)) return res.redirect('/redirect/invalidEmailPattern');
   try {
     let hashedPassword = await getHashedPassword(password);
     let newUser: userModel = new User({ email, password: hashedPassword });
