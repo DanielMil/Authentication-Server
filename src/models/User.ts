@@ -6,7 +6,8 @@ const UserSchema: mongoose.Schema<any> = new Schema({
     password: { type: String, required: true },
     email: { type: String, required: true, unique: true },
     resetPasswordToken: { type: String },
-    resetPasswordExpiration: { type: String }
+    resetPasswordExpiration: { type: String },
+    additionalInfo: { type: Schema.Types.Mixed }
 });
 
 UserSchema.plugin(uniqueValidator);
