@@ -46,4 +46,8 @@ router.get('/invalidModeError', (req: Request, res: Response) => {
     sendResponse("Cannot perform this action for the current environment configuration.", 400, res);
 });
 
+router.get('/invalidEmailPattern', (req: Request, res: Response) => {
+    sendResponse("Invalid email pattern.", 400, res);
+});
+
 export const redirectRouter: Router = router

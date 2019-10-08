@@ -44,4 +44,11 @@ describe('Happy path', async () => {
       .expect(200)
   });
 
+  it('should log the user out', async () => {
+    let call = agent.post('/auth/logout');
+    call.set('Cookie', cookie);
+    call.set('Authorization', token)
+      .expect(200)
+  });
+
 });

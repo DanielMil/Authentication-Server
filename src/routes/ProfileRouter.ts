@@ -4,7 +4,7 @@ import passport from 'passport';
 import { NextFunction } from 'connect';
 import { ensureAuthenticated } from '../config/passport';
 import { userModel } from '../models/Interfaces';
-import { sendResponse, getHashedPassword, getToken } from '../config/APIUtils';
+import { sendResponse, getHashedPassword, getToken, validateEmailPattern } from '../config/APIUtils';
 
 const router: Router = Router();
 
@@ -27,11 +27,12 @@ router.post('/login', (req: Request, res: Response, next: NextFunction) => {
 });
 
 router.post('/register', async (req: Request, res: Response) => {
-  const { email, password } = req.body;
+  const { email, password, additionalInfo } = req.body;
   if (!email || !password) return res.redirect('/redirect/missingFieldError');
   try {
     let hashedPassword = await getHashedPassword(password);
-    let newUser = new User({ email, password: hashedPassword });
+    let newUser: userModel = new User({ email, password: hashedPassword });
+    additionalInfo ? newUser.additionalInfo = additionalInfo : newUser.additionalInfo = {};
     await newUser.save();
     sendResponse("Successfully created new user.", 200, res);
   } catch (err) {
@@ -51,28 +52,32 @@ router.get('/user', ensureAuthenticated, (req: Request, res: Response) => {
   sendResponse(user, 200, res);
 });
 
-router.put('/user', ensureAuthenticated, (req: Request, res: Response) => {
-  const { data, email } = req.body;
-  if (!data && !email) return res.redirect('/redirect/missingFieldError');
-  req.user.data = data ? data : req.user.data;
-  req.user.email = email ? email : req.user.email;
-  req.user.save()
-    .then((user: userModel) => {
-      sendResponse('Successfully updated user.', 200, res);
-    })
-    .catch((err: Error) => {
-      sendResponse(err, 500, res);
-    });
+router.put('/user', ensureAuthenticated, async (req: Request, res: Response) => {
+  const { data, email, additionalInfo } = req.body;
+  let validEmail = true;
+  if (!data && !email && !additionalInfo) return res.redirect('/redirect/missingFieldError');
+  if (email) {
+    validateEmailPattern(email) ? req.user.email = email : validEmail = false;
+    if (!validEmail) return res.redirect('/redirect/invalidEmailPattern');
+  }
+  additionalInfo ? req.user.additionalInfo = { ...req.user.additionalInfo, ...additionalInfo } : null;
+  try {
+    await req.user.save();
+    sendResponse('Successfully updated user.', 200, res);
+  } catch (err) {
+    console.log(err);
+    sendResponse(err, 500, res);
+  }
 });
 
-router.delete('/user', ensureAuthenticated, (req: Request, res: Response) => {
-  User.findByIdAndDelete({ _id: req.user.id })
-    .then((user: userModel) => {
-      sendResponse('Successfully deleted user.', 200, res);
-    })
-    .catch((err: Error) => {
-      sendResponse(err, 500, res);
-    });
+router.delete('/user', ensureAuthenticated, async (req: Request, res: Response) => {
+  try {
+    await User.findByIdAndDelete({ _id: req.user.id });
+    sendResponse('Successfully deleted user.', 200, res);
+  } catch (err) {
+    console.log(err);
+    sendResponse(err, 500, res);
+  }
 })
 
 export const profileRouter: Router = router;
