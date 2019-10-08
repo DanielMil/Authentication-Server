@@ -9,27 +9,30 @@ import { sendResponse, getHashedPassword, getToken } from '../config/APIUtils';
 const router: Router = Router();
 
 router.post('/login', (req: Request, res: Response, next: NextFunction) => {
-  passport.authenticate('local', {session: false}, (err, user) => {
+  passport.authenticate('local', async (err, user) => {
     if (err || !user) {
       console.log(err);
       return res.redirect('/redirect/loginFailure');
     }
     const token = getToken(user);
     const info = {
-        description: "Successfully logged in.",
-        token: token,
+      description: "Successfully logged in.",
+      token
     };
-    sendResponse(info, 200, res);
+    req.logIn(user, (err) => {
+      sendResponse(info, 200, res);
+      if (err) return res.redirect('/redirect/loginFailure');
+    });
   })(req, res, next);
 });
 
 router.post('/register', async (req: Request, res: Response) => {
   const { email, password } = req.body;
-  if (!email || !password) res.redirect('/redirect/missingFieldError');
+  if (!email || !password) return res.redirect('/redirect/missingFieldError');
   try {
     let hashedPassword = await getHashedPassword(password);
-    let newUser = new User({ email, hashedPassword });
-    newUser.save();
+    let newUser = new User({ email, password: hashedPassword });
+    await newUser.save();
     sendResponse("Successfully created new user.", 200, res);
   } catch (err) {
     console.log(err);
@@ -43,7 +46,7 @@ router.post('/logout', ensureAuthenticated, (req: Request, res: Response) => {
 });
 
 router.get('/user', ensureAuthenticated, (req: Request, res: Response) => {
-  let user: any =  new Object(JSON.parse(JSON.stringify(req.user)));
+  let user: any = new Object(JSON.parse(JSON.stringify(req.user)));
   delete user.password;
   sendResponse(user, 200, res);
 });
@@ -72,4 +75,4 @@ router.delete('/user', ensureAuthenticated, (req: Request, res: Response) => {
     });
 })
 
-export const profileRouter: Router = router
+export const profileRouter: Router = router;

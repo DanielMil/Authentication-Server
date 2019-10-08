@@ -11,13 +11,13 @@ router.post('/forgotPassword', async (req: Request, res: Response) => {
     try {
         const buffer: Buffer = await crypto.randomBytes(16);
         const token: string = buffer.toString('hex');
-        const user: userModel = await User.findOne({ email: req.body.email }); 
+        const user: userModel = await User.findOne({ email: req.body.email });
         if (!user) return res.redirect('/redirect/forgotPasswordEmailError');
         user.resetPasswordToken = token;
-        user.resetPasswordExpiration = Date.now() + 3600000; 
+        user.resetPasswordExpiration = Date.now() + 3600000;
         await user.save();
         const forgotPasswordURL: string = `http://${req.connection.remoteAddress}/auth/password/resetPassword/${token}`;
-        const transporter: any = createTransport(); 
+        const transporter: any = createTransport();
         const mailOptions: MailObject = createMailObject(user, forgotPasswordURL);
         await transporter.sendMail(mailOptions);
         const info = getResponseObject(forgotPasswordURL, token);
@@ -30,7 +30,7 @@ router.post('/forgotPassword', async (req: Request, res: Response) => {
 
 router.post('/resetPassword/:token', async (req: Request, res: Response) => {
     try {
-        const user = await User.findOne({ resetPasswordToken: req.params.token, resetPasswordExpiration: { $gt: Date.now() }});
+        const user = await User.findOne({ resetPasswordToken: req.params.token, resetPasswordExpiration: { $gt: Date.now() } });
         if (!user) return res.redirect('/redirect/forgotPasswordTokenError');
         user.password = req.body.password;
         user.resetPasswordToken = undefined;
@@ -61,8 +61,8 @@ const createTransport = (): any => {
     return nodemailer.createTransport({
         service: 'gmail',
         auth: {
-          user: process.env.EMAIL_ADDRESS,
-          pass: process.env.EMAIL_PASSWORD
+            user: process.env.EMAIL_ADDRESS,
+            pass: process.env.EMAIL_PASSWORD
         }
     });
 }
