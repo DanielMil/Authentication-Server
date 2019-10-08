@@ -4,7 +4,7 @@ import * as bodyParser from 'body-parser';
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 import passport = require('passport');
-import { configurePassport } from './config/passport';
+import { configurePassport } from './utils/passport';
 import session from 'express-session';
 import cookieParser from 'cookie-parser';
 import mongoStore from 'connect-mongo';

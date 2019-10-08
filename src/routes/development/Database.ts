@@ -1,6 +1,6 @@
 import { Router, Request, Response } from 'express';
 import { User } from '../../models/User';
-import { sendResponse } from '../../config/APIUtils';
+import { sendResponse } from '../../utils/APIUtils';
 
 const router: Router = Router();
 
