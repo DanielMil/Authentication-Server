@@ -62,7 +62,7 @@
     "@types/mocha": "^5.2.7",
     "@types/supertest": "^2.0.8",
     "chai": "^4.2.0",
-    "mocha": "^6.2.1",
+    "mocha": "^10.2.0",
     "supertest": "^4.0.2",
     "supertest-session": "^4.0.0",
     "ts-mocha": "^6.0.0",
